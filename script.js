@@ -145,5 +145,5 @@ function draw(seconds) {
 replaceTextWithNumbers();
 retrieveAndDraw(true);
 window.setInterval( () => console.log("Pixel tekenen over " + (sec) + " seconden. Data ophalen " + (timeSinceLastRetrieval > 250 ? "na volgende pixel. " : "over " + (250-timeSinceLastRetrieval) + " seconden!")), 10 * 1e3);
-window.setInterval(() => {sec--;timeSinceLastRetrieval++}, 1e3);
+window.setInterval(() => {if(sec > 0 ){sec--;}timeSinceLastRetrieval++}, 1e3);
 window.setInterval(() => retrieveAndDraw(false), 250 * 1e3);
