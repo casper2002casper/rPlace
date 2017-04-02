@@ -9,7 +9,7 @@ var modhash = window.reddit.modhash;
 var timeSinceLastRetrieval = 5000;
 var index = 0;
 var sec = 0;
-var currentVersion = 6;
+var currentVersion = 7;
 
 const colorScheme = {
 	"wit": 0,
@@ -59,7 +59,7 @@ function retrieveAndDraw(doDraw) {
 		.then((resp) => resp.json())
 		.then(function(data) {
 			drawingData.startX = data.startX;
-			drawingData.starty = data.startY;
+			drawingData.startY = data.startY;
 			drawingData.colors = data.colors;
 
 			if (currentVersion < data.newVersion) {
@@ -116,7 +116,14 @@ function draw(seconds) {
                 console.log((ax + ", " + ay) + " worden overgeslagen omdat ze al kloppen!");
                 return draw(1);
             }
-            console.log("Pixel tekenen op locatie " + ax + ", " + ay + " (https://www.reddit.com/r/place/#x=" + ax + "&y=" + ay + ")");
+            var color;
+            for (var key in colorScheme) {
+            	if (colorScheme[key] == flagColor) {
+            		color = key;
+            		break;
+            	}
+            }
+            console.log("Pixel tekenen op locatie " + ax + ", " + ay + " ("+color+") (https://www.reddit.com/r/place/#x=" + ax + "&y=" + ay + ")");
             $.ajax({ url: "https://www.reddit.com/api/place/draw.json", type: "POST",
                 headers: { "x-modhash": modhash }, data: { x: ax, y: ay, color: flagColor }
             })
